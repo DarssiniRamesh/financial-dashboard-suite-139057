@@ -40,7 +40,20 @@ body {
     "sidebar main";
 }
 
-.sb { grid-area: sidebar; background: var(--surface); border-right: 1px solid var(--bd); display: flex; flex-direction: column; padding: 20px 16px; }
+/* Make sidebar sticky/fixed while allowing the main content to scroll */
+.sb { 
+  grid-area: sidebar; 
+  background: var(--surface); 
+  border-right: 1px solid var(--bd); 
+  display: flex; 
+  flex-direction: column; 
+  padding: 20px 16px; 
+  position: sticky;
+  top: 0;
+  height: 100vh;       /* full viewport height */
+  overflow-y: auto;    /* scroll internal content if needed */
+}
+
 .hd { grid-area: header; position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--bd); display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; }
 .main { grid-area: main; padding: 24px; max-width: 1420px; width: 100%; margin: 0 auto; }
 

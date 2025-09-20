@@ -2,11 +2,16 @@ import React from 'react';
 
 /**
  * Sidebar component for navigation in Soft Mono style.
- * Minimal links (non-functional placeholders for now).
+ * Renders sections and items and notifies selection.
  */
 // PUBLIC_INTERFACE
-export default function Sidebar() {
+export default function Sidebar({ items = [], active = '', onSelect = () => {} }) {
   /** Render left sidebar navigation with app identity and sections. */
+  const handleClick = (key, e) => {
+    e.preventDefault();
+    onSelect(key);
+  };
+
   return (
     <aside className="sb">
       <div className="sb__brand">
@@ -18,14 +23,40 @@ export default function Sidebar() {
       </div>
 
       <nav className="sb__nav" aria-label="Primary">
-        <a className="sb__link sb__link--active" href="#dashboard">Overview</a>
-        <a className="sb__link" href="#revenue">Revenue</a>
-        <a className="sb__link" href="#expenses">Expenses</a>
-        <a className="sb__link" href="#customers">Customers</a>
-        <a className="sb__link" href="#reports">Reports</a>
+        {items.filter(i => i.section === 'main').map(it => (
+          <a
+            key={it.key}
+            className={`sb__link ${active === it.key ? 'sb__link--active' : ''}`}
+            href={`#${it.key}`}
+            onClick={(e) => handleClick(it.key, e)}
+          >
+            {it.label}
+          </a>
+        ))}
+
+        <div className="sb__section">Insights</div>
+        {items.filter(i => i.section === 'insights').map(it => (
+          <a
+            key={it.key}
+            className={`sb__link ${active === it.key ? 'sb__link--active' : ''}`}
+            href={`#${it.key}`}
+            onClick={(e) => handleClick(it.key, e)}
+          >
+            {it.label}
+          </a>
+        ))}
+
         <div className="sb__section">Settings</div>
-        <a className="sb__link" href="#preferences">Preferences</a>
-        <a className="sb__link" href="#billing">Billing</a>
+        {items.filter(i => i.section === 'settings').map(it => (
+          <a
+            key={it.key}
+            className={`sb__link ${active === it.key ? 'sb__link--active' : ''}`}
+            href={`#${it.key}`}
+            onClick={(e) => handleClick(it.key, e)}
+          >
+            {it.label}
+          </a>
+        ))}
       </nav>
 
       <div className="sb__foot">
